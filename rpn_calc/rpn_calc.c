@@ -92,11 +92,9 @@ int main(int args, char **argv) {
     if (args == 2)
     {
         if(!calc(argv[1], stack))
-        {
             write(1, "Error\n", 6);
-            return (0);
-        }
-        printf("%d\n", stack[0]);
+        else
+            printf("%d\n", stack[0]);
     }
     return (0);
 }
