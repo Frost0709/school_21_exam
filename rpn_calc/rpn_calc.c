@@ -96,5 +96,7 @@ int main(int args, char **argv) {
         else
             printf("%d\n", stack[0]);
     }
+    else
+        write(1, "Error\n", 6);
     return (0);
 }
