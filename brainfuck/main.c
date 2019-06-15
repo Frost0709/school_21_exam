@@ -74,8 +74,8 @@ int main(int argc, char** argv) {
     if (!(arr = (char*) malloc(i)))
         return (1);
     t_arr = arr;
-    while (i--)
-        arr[i] = 0;    
+    while (i)
+        arr[--i] = 0;    
     brainfuck(&str, &arr);
     free(t_arr);
     return (0);
