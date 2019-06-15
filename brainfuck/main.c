@@ -8,9 +8,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-void brainfuck(char **str, char **arr);
-
 void v_forward(char **str, char **arr) {
     
     int count = 1;
