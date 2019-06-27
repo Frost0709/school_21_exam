@@ -23,9 +23,9 @@ void    print_char(unsigned char c)
 
 void	print_memory(const void *addr, size_t size)
 {
-    int i;
-    int k;
-    int t;
+    size_t i;
+    size_t k;
+    size_t t;
     unsigned char *tmp;
 
     i = 0;
@@ -33,8 +33,8 @@ void	print_memory(const void *addr, size_t size)
     while (i < size)
     {
         t = i;
-        k = -1;
-        while (++k < 16)
+        k = 0;
+        while (k < 16)
         {
             if (i < size) {
                 if (tmp[i] < 16)
@@ -45,6 +45,7 @@ void	print_memory(const void *addr, size_t size)
                 write(1, "  ", 2);
             if ((k + 1) % 2 == 0)
                 write(1, " ", 1);
+            ++k;
         }
         i = t;
         while (k-- > 0  && i < size)
