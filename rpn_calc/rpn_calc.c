@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void remove_chars(char *str)
+void remove_char(char *str)
 {
     int i;
 
@@ -10,6 +10,47 @@ void remove_chars(char *str)
     while (str[++i])
         str[i] = str[i + 1];
     str[i] = 0;
+}
+
+void remove_double_spaces(char *str)
+{
+    int i;
+
+    i = 0;
+    if (!*str)
+        return;
+    if(*str == ' ')
+        remove_char(str);
+    while(str[i])
+    {
+        if(str[i] == ' ' && str[i + 1] == ' ')
+            remove_char(&str[i]);
+        else
+            ++i;
+    }
+    if(str[i - 1] == ' ')
+        remove_char(&str[i - 1]);
+}
+
+int is_string_valid(char *str)
+{
+    int i;
+
+    i = -1;
+    while(str[++i])
+    {
+        if (str[i] == '*' || str[i] == '/' || str[i] == '%')
+        {
+            if (str[i + 1] != 0 || str[i + 1] != ' ')
+                return (0);
+            if (i && str[i - 1] != ' ')
+                return (0);
+        }
+        if (str[i] == '+' || str[i] == '-')
+            if (i && str[i - 1] != ' ')
+                return (0);
+    }
+    return (1);
 }
 
 int is_number(char *c)
@@ -40,13 +81,13 @@ void remove_until_space(char *str)
     i = 0;
     while (str[i]) {
         if (str[i] != ' ')
-            remove_chars(&str[i--]);
+            remove_char(&str[i--]);
         else
             break;
         ++i;
     }
     if (str[i] == ' ')
-        remove_chars(&str[i]);
+        remove_char(&str[i]);
 }
 
 /*
@@ -72,15 +113,21 @@ int  calc(char *str, int *stack)
                 return (0);
             if (str[i] == '*')
                 stack[pos - 1] = stack[pos - 1] * stack[pos];
-            else if (str[i] == '/')
+            else if (str[i] == '/') {
+                if(!stack[pos])
+                    return (0);
                 stack[pos - 1] = stack[pos - 1] / stack[pos];
+            }
             else if (str[i] == '+')
                 stack[pos - 1] = stack[pos - 1] + stack[pos];
             else if (str[i] == '-')
                 stack[pos - 1] = stack[pos - 1] - stack[pos];
-            else if (str[i] == '%')
+            else if (str[i] == '%') {
+                if (!stack[pos])
+                    return (0);
                 stack[pos - 1] = stack[pos - 1] % stack[pos];
-            remove_chars(&str[i--]);
+            }
+            remove_char(&str[i--]);
             --pos;
         }
     }
@@ -91,7 +138,7 @@ int main(int args, char **argv) {
     int stack[100] = {0};
     if (args == 2)
     {
-        if(!calc(argv[1], stack))
+        if(!is_string_valid(argv[1]) || !calc(argv[1], stack))
             write(1, "Error\n", 6);
         else
             printf("%d\n", stack[0]);
