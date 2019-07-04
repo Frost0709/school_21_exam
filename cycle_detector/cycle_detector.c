@@ -9,7 +9,7 @@ typedef struct     s_list
  * Алгоритм проверки наличия зацикленного односвязного списка
  * Алгоритм "заяц и черепаха"
  * Если связанный список зациклен - то будет момент когда
- * указатель "заяц" будет равен указателю "черепаха", собственно такое равенство
+ * указатель "заяц" или заяц->next будет равен указателю "черепаха", собственно такое равенство
  * означает что связанный список зациклен.
  */
 int        cycle_detector(const t_list *list)
@@ -21,11 +21,11 @@ int        cycle_detector(const t_list *list)
         return (0);
     hare = (t_list*)list;
     turtle = (t_list*)list;
-    while (hare && turtle && turtle->next)
+    while (hare && turtle && hare->next)
     {
-        hare = hare->next;
-        turtle = turtle->next->next;
-        if (turtle == hare)
+        hare = hare->next->next;
+        turtle = turtle->next;
+        if (turtle == hare || hare->next == turtle)
             return (1);
     }
     return (0);
