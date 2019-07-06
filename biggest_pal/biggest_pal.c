@@ -65,7 +65,12 @@ void biggest_pal(char *start)
 int main(int args, char **argv)
 {
     if (args == 2)
-        biggest_pal(argv[1]);
+    {
+        if (str_len(argv[1]) == 1)
+            write(1, argv[1], 1);
+        else
+            biggest_pal(argv[1]);
+    }
     write(1, "\n", 1);
     return (0);
 }
