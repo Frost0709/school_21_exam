@@ -26,7 +26,7 @@ int        cycle_detector(const t_list *list)
     {
         hare = hare->next->next;
         turtle = turtle->next;
-        if (turtle == hare || hare->next == turtle)
+        if (hare && turtle && hare->next && (turtle == hare || hare->next == turtle))
             return (1);
     }
     return (0);
